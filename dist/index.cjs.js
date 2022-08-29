@@ -14,7 +14,7 @@ const shellAction = () => {
     id: "shell",
     schema: {
       input: {
-        required: ["command", "workingDirectory"],
+        required: ["command"],
         type: "object",
         properties: {
           command: {
@@ -43,7 +43,7 @@ const shellAction = () => {
         args: ctx.input.args,
         logStream: ctx.logStream,
         options: {
-          cwd: path__default["default"].resolve(ctx.workspacePath, ctx.input.workingDirectory)
+          cwd: path__default["default"].resolve(ctx.workspacePath, ctx.input.workingDirectory || ".")
         }
       });
       ctx.logger.info(`Finished executing ${ctx.input.command}`);
