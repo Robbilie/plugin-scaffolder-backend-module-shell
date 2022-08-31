@@ -1,7 +1,9 @@
 import { createTemplateAction, executeShellCommand } from '@backstage/plugin-scaffolder-backend';
 import path from 'path';
+import { Config } from '@backstage/config';
+import {InputError} from "@backstage/errors";
 
-export const shellAction = () => {
+export const shellAction = (options: { config?: Config, allowedTemplateLocations?: string[] }) => {
     return createTemplateAction<{ command: string; workingDirectory: string, args: string[] }>({
         id: 'shell',
         schema: {
@@ -30,6 +32,12 @@ export const shellAction = () => {
             },
         },
         async handler(ctx) {
+            if (options.allowedTemplateLocations && ctx.templateInfo?.baseUrl && !options.allowedTemplateLocations.includes(ctx.templateInfo?.baseUrl)) {
+                throw new InputError(
+                    `Base URL ${ctx.templateInfo?.baseUrl} not allowed`,
+                );
+            }
+
             await executeShellCommand({
                 command: ctx.input.command,
                 args: ctx.input.args,
