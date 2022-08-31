@@ -40,7 +40,7 @@ const shellAction = (options) => {
     },
     async handler(ctx) {
       var _a, _b, _c;
-      if (options.allowedTemplateLocations && ((_a = ctx.templateInfo) == null ? void 0 : _a.baseUrl) && !options.allowedTemplateLocations.includes((_b = ctx.templateInfo) == null ? void 0 : _b.baseUrl)) {
+      if (options && options.allowedTemplateLocations && ((_a = ctx.templateInfo) == null ? void 0 : _a.baseUrl) && !options.allowedTemplateLocations.includes((_b = ctx.templateInfo) == null ? void 0 : _b.baseUrl)) {
         throw new errors.InputError(
           `Base URL ${(_c = ctx.templateInfo) == null ? void 0 : _c.baseUrl} not allowed`
         );

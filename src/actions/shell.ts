@@ -3,7 +3,7 @@ import path from 'path';
 import { Config } from '@backstage/config';
 import {InputError} from "@backstage/errors";
 
-export const shellAction = (options: { config?: Config, allowedTemplateLocations?: string[] }) => {
+export const shellAction = (options?: { config?: Config, allowedTemplateLocations?: string[] }) => {
     return createTemplateAction<{ command: string; workingDirectory: string, args: string[] }>({
         id: 'shell',
         schema: {
@@ -32,7 +32,7 @@ export const shellAction = (options: { config?: Config, allowedTemplateLocations
             },
         },
         async handler(ctx) {
-            if (options.allowedTemplateLocations && ctx.templateInfo?.baseUrl && !options.allowedTemplateLocations.includes(ctx.templateInfo?.baseUrl)) {
+            if (options && options.allowedTemplateLocations && ctx.templateInfo?.baseUrl && !options.allowedTemplateLocations.includes(ctx.templateInfo?.baseUrl)) {
                 throw new InputError(
                     `Base URL ${ctx.templateInfo?.baseUrl} not allowed`,
                 );
