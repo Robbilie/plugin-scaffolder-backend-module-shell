@@ -35,6 +35,7 @@ export const shellAction = () => {
                 args: ctx.input.args,
                 logStream: ctx.logStream,
                 options: {
+                    env: process.env,
                     cwd: path.resolve(ctx.workspacePath, ctx.input.workingDirectory || '.')
                 }
             });

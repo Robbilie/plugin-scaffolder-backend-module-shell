@@ -43,6 +43,7 @@ const shellAction = () => {
         args: ctx.input.args,
         logStream: ctx.logStream,
         options: {
+          env: process.env,
           cwd: path__default["default"].resolve(ctx.workspacePath, ctx.input.workingDirectory || ".")
         }
       });
