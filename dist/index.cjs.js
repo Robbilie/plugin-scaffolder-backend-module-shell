@@ -4,12 +4,13 @@ Object.defineProperty(exports, '__esModule', { value: true });
 
 var pluginScaffolderBackend = require('@backstage/plugin-scaffolder-backend');
 var path = require('path');
+var errors = require('@backstage/errors');
 
 function _interopDefaultLegacy (e) { return e && typeof e === 'object' && 'default' in e ? e : { 'default': e }; }
 
 var path__default = /*#__PURE__*/_interopDefaultLegacy(path);
 
-const shellAction = () => {
+const shellAction = (options) => {
   return pluginScaffolderBackend.createTemplateAction({
     id: "shell",
     schema: {
@@ -38,6 +39,12 @@ const shellAction = () => {
       }
     },
     async handler(ctx) {
+      var _a, _b, _c;
+      if (options.allowedTemplateLocations && ((_a = ctx.templateInfo) == null ? void 0 : _a.baseUrl) && !options.allowedTemplateLocations.includes((_b = ctx.templateInfo) == null ? void 0 : _b.baseUrl)) {
+        throw new errors.InputError(
+          `Base URL ${(_c = ctx.templateInfo) == null ? void 0 : _c.baseUrl} not allowed`
+        );
+      }
       await pluginScaffolderBackend.executeShellCommand({
         command: ctx.input.command,
         args: ctx.input.args,
